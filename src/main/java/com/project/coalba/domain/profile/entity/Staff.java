@@ -36,6 +36,9 @@ public class Staff extends BaseTimeEntity {
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
+    @Column(nullable = false)
+    private String deviceToken;
+
     @Builder.Default
     @OneToMany(mappedBy = "staff")
     private List<WorkspaceMember> workspaceMemberList = new ArrayList<>();

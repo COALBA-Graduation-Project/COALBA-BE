@@ -1,5 +1,6 @@
 package com.project.coalba.domain.substituteReq.service;
 
+import com.project.coalba.domain.notification.FirebaseCloudMessageService;
 import com.project.coalba.domain.profile.entity.Boss;
 import com.project.coalba.domain.profile.entity.Staff;
 import com.project.coalba.domain.profile.service.BossProfileService;
@@ -29,6 +30,7 @@ public class StaffSubstituteReqService {
     private final BossProfileService bossProfileService;
     private final ScheduleService scheduleService;
     private final SubstituteRepository substituteRepository;
+    private final FirebaseCloudMessageService firebaseCloudMessageService;
 
     @Transactional
     public void createSubstituteReq(Long scheduleId, Long receiverId, String reqMessage) {
@@ -47,6 +49,15 @@ public class StaffSubstituteReqService {
                 .build();
 
         substituteRepository.save(substituteReq);
+
+        sendSubstituteRequestNotice(substituteReq);
+    }
+
+    private void sendSubstituteRequestNotice(SubstituteReq substituteReq) {
+        String senderName = substituteReq.getSender().getRealName();
+        String deviceToken = substituteReq.getReceiver().getDeviceToken();
+
+        firebaseCloudMessageService.sendMessageTo(deviceToken, "대타근무 요청",senderName + "님이 대타를 요청하였어요");
     }
 
     @Transactional
@@ -112,10 +123,20 @@ public class StaffSubstituteReqService {
         /**
          * 추후 기능 보완
          * 요청 성사시 다른 사람한테 보낸 요청 다 취소(?)
-         * 요청 성사시 사장님께 알림 보내기
          */
         SubstituteReq substituteReq = this.getSubstituteReqById(substituteReqId);
         substituteReq.accept();
+
+        sendAcceptanceNotice(substituteReq);
+    }
+
+    private void sendAcceptanceNotice(SubstituteReq substituteReq) {
+        String bossDeviceToken = substituteReq.getBoss().getDeviceToken();
+        String senderDeviceToken = substituteReq.getSender().getDeviceToken();
+        String senderName = substituteReq.getSender().getRealName();
+
+        firebaseCloudMessageService.sendMessageTo(bossDeviceToken, "대타 승인 요청","대타 승인 요청이 도착하였습니다.");
+        firebaseCloudMessageService.sendMessageTo(senderDeviceToken, "대타 요청 수락",senderName + "님이 대타요청을 수락하였습니다. 사장님께 승인요청이 갑니다.");
     }
 
     @Transactional

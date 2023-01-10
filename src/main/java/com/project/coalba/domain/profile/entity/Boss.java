@@ -37,6 +37,9 @@ public class Boss extends BaseTimeEntity {
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
+    @Column(nullable = false)
+    private String deviceToken;
+
     @Builder.Default
     @OneToMany(mappedBy = "boss")
     private List<Workspace> workspaceList = new ArrayList<>();
