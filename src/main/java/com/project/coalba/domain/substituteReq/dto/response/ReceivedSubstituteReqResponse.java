@@ -24,7 +24,7 @@ public class ReceivedSubstituteReqResponse implements Comparable<ReceivedSubstit
 
     @Override
     public int compareTo(@NotNull ReceivedSubstituteReqResponse o) {
-        if ((year == o.year && month < o.getMonth()) || year < o.getYear()) return 1;
+        if ((year.equals(o.year) && month < o.getMonth()) || year < o.getYear()) return 1;
         else return -1;
     }
 }
