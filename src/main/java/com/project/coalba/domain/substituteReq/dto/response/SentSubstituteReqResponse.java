@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class SentSubstituteReqResponse implements Comparable<SentSubstituteReqResponse> {
-    private Integer year;
-    private Integer month;
+    private int year;
+    private int month;
     private List<SentDetailSubstituteReqResponse> substituteReqList = new ArrayList<>();
 
     public SentSubstituteReqResponse(YearMonth yearMonth, List<SubstituteReqDto> substituteReqDtos) {
@@ -24,7 +24,7 @@ public class SentSubstituteReqResponse implements Comparable<SentSubstituteReqRe
 
     @Override
     public int compareTo(@NotNull SentSubstituteReqResponse o) {
-        if ((year.equals(o.year) && month < o.getMonth()) || year < o.getYear()) return 1;
+        if ((year == o.year && month < o.getMonth()) || year < o.getYear()) return 1;
         else return -1;
     }
 }
