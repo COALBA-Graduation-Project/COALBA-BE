@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class BothSubstituteReqResponse implements Comparable<BothSubstituteReqResponse> {
-    private Integer year;
-    private Integer month;
+    private int year;
+    private int month;
     private List<BothDetailSubstituteReqResponse> substituteReqList = new ArrayList<>();
 
     public BothSubstituteReqResponse(YearMonth yearMonth, List<BothSubstituteReqDto> substituteReqDtos) {

@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class ReceivedSubstituteReqResponse implements Comparable<ReceivedSubstituteReqResponse> {
-    private Integer year;
-    private Integer month;
+    private int year;
+    private int month;
     private List<ReceivedDetailSubstituteReqResponse> substituteReqList = new ArrayList<>();
 
     public ReceivedSubstituteReqResponse(YearMonth yearMonth, List<SubstituteReqDto> substituteReqDtos) {
